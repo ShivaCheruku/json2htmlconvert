@@ -1,23 +1,27 @@
 // json2html.js
 
 export default function json2html(data) {
-  // Start the table and include the data-user attribute
+  // Check if all rows have the required columns (Name, Age, Gender)
+  const requiredColumns = ["Name", "Age", "Gender"];
+  
+  // Start the table with the data-user attribute
   let html = `<table data-user="shivashankerreddycheruku@gmail.com">\n<thead>\n<tr>`;
-
-  // Get the column headers dynamically from the object keys in the first object of the array
-  const headers = Object.keys(data[0]);
-  headers.forEach(header => {
+  
+  // Create the table header with the fixed required columns
+  requiredColumns.forEach(header => {
     html += `<th>${header}</th>`;
   });
-  
   html += `</tr>\n</thead>\n<tbody>\n`;
 
-  // Loop through each item in the array to build table rows
+  // Loop through each object in the array to create the table rows
   data.forEach(row => {
     html += `<tr>`;
-    headers.forEach(header => {
-      html += `<td>${row[header] || ""}</td>`; // If the property doesn't exist, return an empty cell
+    
+    // Ensure each row includes only the required columns: Name, Age, Gender
+    requiredColumns.forEach(column => {
+      html += `<td>${row[column] || ""}</td>`;  // If a value is missing, insert an empty cell
     });
+    
     html += `</tr>\n`;
   });
 
